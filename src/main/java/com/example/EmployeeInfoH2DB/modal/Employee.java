@@ -12,7 +12,7 @@ import lombok.*;
 //@Setter
 //@AllArgsConstructor
 //@NoArgsConstructor
-
+@Data
 public class Employee {
     @Id
     @GeneratedValue
@@ -23,65 +23,7 @@ public class Employee {
     private String empGender;
     private String empDepartment;
 
-    public Employee(long empId, String empName, long empSalary, String empDOB, String empGender, String empDepartment) {
-        this.empId = empId;
-        this.empName = empName;
-        this.empSalary = empSalary;
-        this.empDOB = empDOB;
-        this.empGender = empGender;
-        this.empDepartment = empDepartment;
-    }
 
-    public Employee() {
-    }
-
-    public long getEmpId() {
-        return empId;
-    }
-
-    public void setEmpId(long empId) {
-        this.empId = empId;
-    }
-
-    public String getEmpName() {
-        return empName;
-    }
-
-    public void setEmpName(String empName) {
-        this.empName = empName;
-    }
-
-    public long getEmpSalary() {
-        return empSalary;
-    }
-
-    public void setEmpSalary(long empSalary) {
-        this.empSalary = empSalary;
-    }
-
-    public String getEmpDOB() {
-        return empDOB;
-    }
-
-    public void setEmpDOB(String empDOB) {
-        this.empDOB = empDOB;
-    }
-
-    public String getEmpGender() {
-        return empGender;
-    }
-
-    public void setEmpGender(String empGender) {
-        this.empGender = empGender;
-    }
-
-    public String getEmpDepartment() {
-        return empDepartment;
-    }
-
-    public void setEmpDepartment(String empDepartment) {
-        this.empDepartment = empDepartment;
-    }
 }
 
 
