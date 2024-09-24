@@ -1,5 +1,7 @@
 package com.example.EmployeeInfoH2DB.service;
 
+import com.example.EmployeeInfoH2DB.dto.EmployeeDTO;
+import com.example.EmployeeInfoH2DB.exception.EmployeeNotFoundException;
 import com.example.EmployeeInfoH2DB.modal.Employee;
 import com.example.EmployeeInfoH2DB.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,44 +10,70 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class EmployeeService {
+public class EmployeeService implements  IEmployeeService{
 
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    public Employee addEmployee(Employee employee){
+    // add Employee Info in DB
+    public EmployeeDTO addEmployee(EmployeeDTO employeeDTO){
 
-       return employeeRepository.save(employee);
+        Employee employee = new Employee(employeeDTO);
+       return mapToDTO(employeeRepository.save(employee));
     }
 
+    // convert to the DTO
+    private EmployeeDTO mapToDTO(Employee employee){
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        employeeDTO.setEmpName(employee.getEmpName());
+        employeeDTO.setEmpSalary(employee.getEmpSalary());
+        employeeDTO.setEmpDOB(employee.getEmpDOB());
+        employeeDTO.setEmpGender(employee.getEmpGender());
+        employeeDTO.setEmpDepartment(employee.getEmpDepartment());
+        return employeeDTO;
+    }
+
+
+    // Retrive all Employee Info
     public List<Employee> getAllEmployee(){
         return employeeRepository.findAll();
     }
 
-    public Employee getById(Long id){
-        return employeeRepository.findById(id).orElseThrow(()-> new RuntimeException("Employee Id Not Found"));
-
+    // retrive employee data by Id
+    public EmployeeDTO getById(Long id){
+        Employee employee = employeeRepository.findById(id).orElseThrow(()-> new EmployeeNotFoundException(id));
+        return mapToDTO(employee);
     }
 
-    public Employee updateEmployee(Long id, Employee employee){
-        Employee emp_data = getById(id);
-        if(emp_data != null){
-            emp_data.setEmpName(employee.getEmpName());
-            emp_data.setEmpSalary(employee.getEmpSalary());
-            emp_data.setEmpDOB(employee.getEmpDOB());
+    // updating Employee Info
+    public EmployeeDTO updateEmployee(Long id, EmployeeDTO employeeDTO) {
+        // Fetch the existing employee entity from the repository using the id
+        Employee existingEmployee = employeeRepository.findById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException(id));
 
-            return employeeRepository.save(emp_data);
-        }
-        return null;
+        // Update the existing employee's details
+        existingEmployee.setEmpName(employeeDTO.getEmpName());
+        existingEmployee.setEmpSalary(employeeDTO.getEmpSalary());
+        existingEmployee.setEmpDOB(employeeDTO.getEmpDOB());
+        existingEmployee.setEmpGender(employeeDTO.getEmpGender());
+        existingEmployee.setEmpDepartment(employeeDTO.getEmpDepartment());
+
+        // Save the updated employee entity
+        Employee updatedEmployee = employeeRepository.save(existingEmployee);
+
+        // Convert the updated employee entity back to DTO and return it
+        return mapToDTO(updatedEmployee);
     }
 
-    public Employee deleteEmployee(Long id, Employee employee){
-        Employee emp_data = getById(id);
-        if(emp_data != null){
-            employeeRepository.deleteById(id);
-            return emp_data;
-        }
-        return null;
+
+    public EmployeeDTO deleteEmployee(Long id, EmployeeDTO employeeDTO){
+
+        Employee existingEmployee = employeeRepository.findById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException(id));
+
+        // remove the Employee
+        employeeRepository.deleteById(id);
+        return mapToDTO(existingEmployee);
     }
 
 }

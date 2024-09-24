@@ -1,7 +1,9 @@
 package com.example.EmployeeInfoH2DB.controller;
 
+import com.example.EmployeeInfoH2DB.dto.EmployeeDTO;
 import com.example.EmployeeInfoH2DB.modal.Employee;
 import com.example.EmployeeInfoH2DB.service.EmployeeService;
+import com.example.EmployeeInfoH2DB.service.IEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,13 +15,13 @@ import java.util.List;
 public class TestController {
 
     @Autowired
-    private EmployeeService employeeService;
+    private IEmployeeService employeeService;
 
     //@RequestMapping(value = "/add",method = RequestMethod.POST)
     @PostMapping("/add")
-    public Employee add(@RequestBody Employee employee){
+    public EmployeeDTO add(@RequestBody EmployeeDTO employeeDTO){
 
-        return employeeService.addEmployee(employee);
+        return employeeService.addEmployee(employeeDTO);
     }
 
 //    @GetMapping("/get")
@@ -34,20 +36,21 @@ public class TestController {
     }
 
     @GetMapping("/{id}")
-    public Employee getEmployeeById(@PathVariable Long id){
+    public EmployeeDTO getEmployeeById(@PathVariable Long id){
         return employeeService.getById(id);
     }
 
     @PutMapping("/{id}")
-    public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee employee){
+    public EmployeeDTO updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO){
 
-        return employeeService.updateEmployee(id,employee);
+
+        return employeeService.updateEmployee(id,employeeDTO);
     }
 
     @DeleteMapping("/{id}")
-    public Employee deleteUser(@PathVariable Long id, @RequestBody Employee employee){
+    public EmployeeDTO deleteUser(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO){
 
-        return employeeService.deleteEmployee(id,employee);
+        return employeeService.deleteEmployee(id,employeeDTO);
     }
 
 }
