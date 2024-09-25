@@ -30,6 +30,9 @@ public class EmployeeService implements  IEmployeeService{
         employeeDTO.setEmpDOB(employee.getEmpDOB());
         employeeDTO.setEmpGender(employee.getEmpGender());
         employeeDTO.setEmpDepartment(employee.getEmpDepartment());
+        employeeDTO.setEmpEmail(employee.getEmpEmail());
+        employeeDTO.setRegistrationDate(employee.getRegistrationDate());
+        employeeDTO.setEventDate(employee.getEventDate());
         return employeeDTO;
     }
 
@@ -57,6 +60,9 @@ public class EmployeeService implements  IEmployeeService{
         existingEmployee.setEmpDOB(employeeDTO.getEmpDOB());
         existingEmployee.setEmpGender(employeeDTO.getEmpGender());
         existingEmployee.setEmpDepartment(employeeDTO.getEmpDepartment());
+        existingEmployee.setEmpEmail(employeeDTO.getEmpEmail());
+        existingEmployee.setRegistrationDate(employeeDTO.getRegistrationDate());
+        existingEmployee.setEventDate(employeeDTO.getEventDate());
 
         // Save the updated employee entity
         Employee updatedEmployee = employeeRepository.save(existingEmployee);
