@@ -1,20 +1,18 @@
 package com.example.EmployeeInfoH2DB.modal;
 
 import com.example.EmployeeInfoH2DB.dto.EmployeeDTO;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "Employee_Table")
 //@Getter
 //@Setter
-//@AllArgsConstructor
-//@NoArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class Employee {
     @Id
@@ -29,9 +27,13 @@ public class Employee {
     private LocalDate registrationDate;
     private LocalDate eventDate;
 
-    public Employee(){
+    @ElementCollection
+    @CollectionTable(name = "phone_data", joinColumns = @JoinColumn(name = "id"))
+    private List<String> phoneNo;
 
-    }
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    private List<Address> address;
+
 
     public Employee(EmployeeDTO employeeDTO){
         this.empName = employeeDTO.getEmpName();

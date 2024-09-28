@@ -1,5 +1,6 @@
 package com.example.EmployeeInfoH2DB.dto;
 
+import com.example.EmployeeInfoH2DB.modal.Address;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Data
@@ -38,4 +40,7 @@ public class EmployeeDTO {
     @Future
     private LocalDate eventDate;
 
+
+    private List<String> phoneNo;
+    private List<Address> address;
 }

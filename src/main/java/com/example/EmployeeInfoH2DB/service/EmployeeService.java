@@ -2,6 +2,7 @@ package com.example.EmployeeInfoH2DB.service;
 
 import com.example.EmployeeInfoH2DB.dto.EmployeeDTO;
 import com.example.EmployeeInfoH2DB.exception.EmployeeNotFoundException;
+import com.example.EmployeeInfoH2DB.modal.Address;
 import com.example.EmployeeInfoH2DB.modal.Employee;
 import com.example.EmployeeInfoH2DB.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,22 @@ public class EmployeeService implements  IEmployeeService{
     // add Employee Info in DB
     public EmployeeDTO addEmployee(EmployeeDTO employeeDTO){
 
-        Employee employee = new Employee(employeeDTO);
+        //Employee employee = new Employee(employeeDTO);
+        Employee employee = new Employee();
+        employee.setEmpName(employeeDTO.getEmpName());
+        employee.setEmpSalary(employeeDTO.getEmpSalary());
+        employee.setEmpDOB(employeeDTO.getEmpDOB());
+        employee.setEmpGender(employeeDTO.getEmpGender());
+        employee.setEmpDepartment(employeeDTO.getEmpDepartment());
+        employee.setEmpEmail(employeeDTO.getEmpEmail());
+        employee.setRegistrationDate(employeeDTO.getRegistrationDate());
+        employee.setEventDate(employeeDTO.getEventDate());
+        employee.setPhoneNo(employeeDTO.getPhoneNo());
+
+        List<Address> addresses = employeeDTO.getAddress();
+        addresses.forEach(address -> address.setEmployee(employee));
+
+        employee.setAddress(addresses);
        return mapToDTO(employeeRepository.save(employee));
     }
 
@@ -33,6 +49,8 @@ public class EmployeeService implements  IEmployeeService{
         employeeDTO.setEmpEmail(employee.getEmpEmail());
         employeeDTO.setRegistrationDate(employee.getRegistrationDate());
         employeeDTO.setEventDate(employee.getEventDate());
+        employeeDTO.setPhoneNo(employee.getPhoneNo());
+        employeeDTO.setAddress(employee.getAddress());
         return employeeDTO;
     }
 
@@ -63,6 +81,8 @@ public class EmployeeService implements  IEmployeeService{
         existingEmployee.setEmpEmail(employeeDTO.getEmpEmail());
         existingEmployee.setRegistrationDate(employeeDTO.getRegistrationDate());
         existingEmployee.setEventDate(employeeDTO.getEventDate());
+        existingEmployee.setPhoneNo(employeeDTO.getPhoneNo());
+        existingEmployee.setAddress(employeeDTO.getAddress());
 
         // Save the updated employee entity
         Employee updatedEmployee = employeeRepository.save(existingEmployee);
